@@ -114,8 +114,8 @@ jobs:
             ~/.cargo/git/db/
             mantle/target/
           key: ${{ runner.os }}-release-cargo-${{ hashFiles('**/Cargo.lock') }}
-      - name: Install libdev-ssl
-        run: sudo apt-get -y install libssl-dev
+      - name: Install libssl-ssl
+        run: sudo apt-get -y install pkg-config libssl-dev
       - name: Install arm build prerequisites
         run: |
           sudo apt-get -y update
