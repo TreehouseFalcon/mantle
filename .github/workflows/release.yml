@@ -116,7 +116,9 @@ jobs:
           key: ${{ runner.os }}-release-cargo-${{ hashFiles('**/Cargo.lock') }}
       - name: Build release binary
         working-directory: mantle
-        run: cargo build --locked --verbose --release --target aarch64-unknown-linux-gnu
+        run: |
+          rustup target add aarch64-unknown-linux-gnu
+          cargo build --locked --verbose --release --target aarch64-unknown-linux-gnu
         env:
           OPENSSL_STATIC: 1
       - name: Zip binary
