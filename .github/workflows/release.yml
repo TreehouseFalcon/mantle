@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
   push:
     tags:
-      - 'v*.*.*'
+      - "v*.*.*"
 
 jobs:
   windows:
@@ -81,6 +81,42 @@ jobs:
       - name: Build release binary
         working-directory: mantle
         run: cargo build --locked --verbose --release
+        env:
+          OPENSSL_STATIC: 1
+      - name: Zip binary
+        uses: thedoctor0/zip-release@0.6.0
+        with:
+          filename: mantle-linux.zip
+          path: mantle/target/release/mantle
+      - name: Upload binary artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: mantle-linux
+          path: mantle-linux.zip
+      - name: Generate schema
+        working-directory: mantle
+        run: cargo run --release --bin gen_schema > schema.json
+      - name: Upload schema artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: schema
+          path: mantle/schema.json
+  linux_aarch64: # ARM build for Linux
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/cache@v2
+        with:
+          path: |
+            ~/.cargo/bin/
+            ~/.cargo/registry/index/
+            ~/.cargo/registry/cache/
+            ~/.cargo/git/db/
+            mantle/target/
+          key: ${{ runner.os }}-release-cargo-${{ hashFiles('**/Cargo.lock') }}
+      - name: Build release binary
+        working-directory: mantle
+        run: cargo build --locked --verbose --release --target aarch64-unknown-linux-gnu
         env:
           OPENSSL_STATIC: 1
       - name: Zip binary
