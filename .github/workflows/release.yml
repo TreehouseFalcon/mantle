@@ -122,13 +122,13 @@ jobs:
       - name: Zip binary
         uses: thedoctor0/zip-release@0.6.0
         with:
-          filename: mantle-linux.zip
+          filename: mantle-linux-aarch64.zip
           path: mantle/target/release/mantle
       - name: Upload binary artifact
         uses: actions/upload-artifact@v2
         with:
-          name: mantle-linux
-          path: mantle-linux.zip
+          name: mantle-linux-aarch64
+          path: mantle-linux-aarch64.zip
       - name: Generate schema
         working-directory: mantle
         run: cargo run --release --bin gen_schema > schema.json
