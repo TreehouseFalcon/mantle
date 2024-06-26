@@ -114,12 +114,10 @@ jobs:
             ~/.cargo/git/db/
             mantle/target/
           key: ${{ runner.os }}-release-cargo-${{ hashFiles('**/Cargo.lock') }}
-      - name: Install libssl-dev
-        run: sudo apt-get install -y pkg-config libssl-dev
       - name: Install arm build prerequisites
         run: |
           sudo apt-get -y update
-          sudo apt-get -y install gcc-aarch64-linux-gnu
+          sudo apt-get -y install gcc-aarch64-linux-gnu pkg-config libssl-dev
           echo 'RUSTFLAGS=-C linker=aarch64-linux-gnu-gcc' >> "$GITHUB_ENV"
       - name: Build release binary
         working-directory: mantle
