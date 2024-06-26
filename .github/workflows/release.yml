@@ -117,7 +117,7 @@ jobs:
       - name: Install arm build prerequisites
         run: |
           sudo apt-get -y update
-          sudo apt-get -y install gcc-aarch64-linux-gnu libssl-dev
+          sudo apt-get -y install gcc-aarch64-linux-gnu
           echo 'RUSTFLAGS=-C linker=aarch64-linux-gnu-gcc' >> "$GITHUB_ENV"
       - name: Build release binary
         working-directory: mantle
